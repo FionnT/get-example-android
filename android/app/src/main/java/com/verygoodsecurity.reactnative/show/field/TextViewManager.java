@@ -13,6 +13,8 @@ import com.verygoodsecurity.reactnative.show.VGSShowOnCreateViewInstanceListener
 import com.verygoodsecurity.vgsshow.widget.VGSTextView;
 
 import com.verygoodsecurity.reactnative.util.ResourceUtil;
+import kotlin.text.Regex;
+import android.util.Log;
 
 public class TextViewManager extends ViewGroupManager<VGSTextView> {
 
@@ -32,8 +34,20 @@ public class TextViewManager extends ViewGroupManager<VGSTextView> {
 
     @ReactProp(name = "contentPath")
     public void setContentPath(VGSTextView view, String text) {
-        view.setContentPath(text);
+
+      Log.e("contentPathIS", text);
+
+      switch (text) {
+        case "origin":
+          view.addTransformationRegex(new Regex("(\\d{2}).(\\d{3}).(\\d{3}).(\\d{3})"), "$1-$2-$3-$4");
+        case "headers.Vgs-Tenant":
+          view.addTransformationRegex(new Regex("(tnt)(\\d{1})"), "$1-$2");
+      }
+      
+      view.setContentPath(text);
+
     }
+
 
     @ReactProp(name = "padding")
     public void setPadding(VGSTextView view, int padding) {
@@ -53,7 +67,7 @@ public class TextViewManager extends ViewGroupManager<VGSTextView> {
 
     @Override
     protected VGSTextView createViewInstance(ThemedReactContext reactContext) {
-        textView = new VGSTextView(reactContext);
+      textView = new VGSTextView(reactContext);
 
         listener.onCreateViewInstance(textView);
 

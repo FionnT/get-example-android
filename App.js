@@ -43,12 +43,7 @@ export default class App extends  Component<Props> {
     }
 
     revealData = () => {
-        var data = {
-            'payment_card_number': this.state.cardNumberToken,
-            'payment_card_expiration_date': this.state.expirationDateToken
-        };
-
-        VGSShow.submitAsync(data)
+        VGSShow.submitAsync()
     }
 
     render() {
@@ -122,7 +117,7 @@ export default class App extends  Component<Props> {
                     <VGSTextView
                         style={styles.showField}
                         hint={'Card Number'}
-                        contentPath={'json.payment_card_number'}
+                        contentPath={'origin'}
                         corners={12}
                         fontSize={12}
                         padding={3}
@@ -131,7 +126,7 @@ export default class App extends  Component<Props> {
                     <VGSTextView
                         style={styles.showField}
                         hint={'Expiration Date'}
-                        contentPath={'json.payment_card_expiration_date'}
+                        contentPath={'headers.Vgs-Tenant'}
                         corners={12}
                         fontSize={12}
                         padding={3}

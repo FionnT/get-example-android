@@ -26,9 +26,9 @@ import android.util.Log;
 public class VGSShowModule extends ReactContextBaseJavaModule {
 
     private static final String RESPONSE_EVENT_NAME = "VGSShowOnVGSResponse";
-    private static final String VAULT_ID = "tntpszqgikn";
     private static final String MODULE_NAME = "VGSShow";
-    private static final String PATH = "/post";
+    private static final String VAULT_ID = "tnt2xnckpkj";
+    private static final String PATH = "/get";
 
     private static ReactApplicationContext reactContext;
     private VGSShow show;
@@ -48,7 +48,7 @@ public class VGSShowModule extends ReactContextBaseJavaModule {
         show = new VGSShow.Builder(activity, VAULT_ID)
             .setEnvironment(new VGSEnvironment.Sandbox())
             .build();
-
+        show.setCustomHeader("Authorization", "Bearer 15fb4cae02c42168ca411856d06eced4d6cee5e2");
         initListeners();
     }
 
@@ -59,11 +59,11 @@ public class VGSShowModule extends ReactContextBaseJavaModule {
 
     private void initListeners() {
         show.addOnResponseListener(new VGSOnResponseListener() {
-            @Override
-            public void onResponse( VGSResponse response) {
-//                sendResponse(response);
-                Log.e("test", "submitAsync"+response.toString());
-            }
+          @Override
+          public void onResponse(VGSResponse response) {
+
+            Log.e("tes123t", "submitAsync"+response.toString());
+          }
         });
     }
 
@@ -73,15 +73,8 @@ public class VGSShowModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void submitAsync(ReadableMap rnMap) {
-        String key11 = rnMap.hasKey("payment_card_number") ? rnMap.getString("payment_card_number") : "empty";
-        String key12 = rnMap.hasKey("payment_card_expiration_date") ? rnMap.getString("payment_card_expiration_date") : "empty";
-        Log.e("test", "key1: "+key11);
-        Log.e("test", "key2: "+key12);
-
-        Map<String, Object> map = recursivelyDeconstructReadableMap(rnMap);
-        convertWithIteration(map);
-        show.requestAsync(PATH, VGSHttpMethod.POST, map);
+    public void submitAsync() {
+      show.requestAsync(PATH, VGSHttpMethod.GET);
     }
 
     public void convertWithIteration(Map<String, ?> map) {
